@@ -1,0 +1,246 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<!DOCTYPE html>
+<html>
+<head>
+<title>Resilience As A Service</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<style>
+body,h1 {font-family: "Raleway", sans-serif}
+h1 {text-align: center;}
+body, html {height: 100%}
+#bgimg {
+  background-image: url('backgroundimg.png');
+  min-height: 100%;
+  background-position: center;
+  opacity: 0.5;
+  display: block;
+  position: relative;
+  background-repeat:no-repeat;
+  background-size:cover;
+
+}
+.place{
+  margin: 0;
+  position: absolute;
+  top: 30%;
+  left: 7%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+.btn2{
+  margin-left: 20%;
+}
+.btn1{
+  margin-left: 15%;
+}
+
+
+.btn1:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.button {
+  display: inline-flex;
+  height: 40px;
+  width: 150px;
+  border: 2px solid #BFC0C0;
+  margin: 20px 20px 20px 20px;
+  color: #BFC0C0;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: .8em;
+  letter-spacing: 1.5px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  text-align:center;
+  vertical-align:middle;
+}
+
+
+#button-2 {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  
+  display: inline-flex;
+  height: 40px;
+  width: 150px;
+  border: 2px solid #BFC0C0;
+  margin: 20px 20px 20px 20px;
+  color: #BFC0C0;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: .8em;
+  letter-spacing: 1.5px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  text-align:center;
+  vertical-align:middle;
+}
+
+.home {
+  border: 2px solid #BFC0C0;
+  margin: 10px 10px 10px 10px;
+  padding: 5px 5px 5px 5px;
+}
+
+.home:hover {
+  background-color: #BFC0C0;
+}
+
+#slide {
+  width: 100%;
+  height: 100%;
+  left: -200px;
+  background: #BFC0C0;
+  position: absolute;
+  transition: all .35s ease-Out;
+  bottom: 0;
+}
+
+#button-2:hover #slide {
+  left: 0;
+}
+
+#button-2:hover p{
+  color: #2D3142;
+}
+.name{
+margin-top:8%
+}
+.btnPosition{
+	left:5%;
+	}
+	
+</style>
+</head>
+<body id="bgimg">
+
+<script type="text/vbscript">
+
+Sub Window_onLoad
+
+    window.resizeTo 1184,817
+
+End Sub
+
+Function openHome()
+	Dim sUserName
+	Dim sPassword
+	Dim sServerName
+	
+	arrCommands = Split(oHTA.commandLine, chr(94))
+	
+	sServerName = arrCommands(1)
+	sUserName = arrCommands(2)
+	sPassword = arrCommands(3)
+		
+	Dim ws
+	Set ws = CreateObject("wscript.shell")
+	ws.run("MainPage.hta"&" ^"&sServerName&"^"&sUserName&"^"&sPassword)
+	self.close()
+End Function
+
+Function LoadTest()
+	Dim ws
+	Set ws = CreateObject("wscript.shell")
+	ws.run("JmeterPaths.hta")
+End Function
+
+Function StartMonitor()
+	Set objShell = CreateObject("Wscript.Shell")
+	objShell.Run("powershell.exe -executionpolicy bypass start-process -FilePath 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe' -ArgumentList 'http://localhost:3000/d/8RWVa_dGk/linux-system-overview?orgId=1&refresh=5s'")
+End Function
+
+Function CPUstress()
+	Dim sUserName
+	Dim sPassword
+	Dim sCommand
+	
+	arrCommands = Split(oHTA.commandLine, chr(94))
+	
+	sServerName = arrCommands(1)
+	sUserName = arrCommands(2)
+	sPassword = arrCommands(3)
+		
+	Dim ws
+	Set ws = CreateObject("wscript.shell")
+	ws.run("cpuStress.hta"&" ^"&sServerName&"^"&sUserName&"^"&sPassword)
+End Function
+
+Function MemoryStress()
+	Set objShell = CreateObject("Wscript.Shell")
+	'objShell.Run("powershell.exe -executionpolicy bypass -noexit -Command Invoke-Command -ComputerName 192.168.0.101 -ScriptBlock { C:\Users\debar\Desktop\FINAL\FINAL\MemoryStress.ps1 } -credential $cred")
+End Function
+
+Function DiskStress()
+	
+End Function
+
+Function NetworkLatency()
+	Set oShell = CreateObject("Shell.Application")
+	oShell.ShellExecute "powershell", "-executionpolicy bypass -file C:\Users\debar\Desktop\FINAL\Clumsy.ps1", "", "runas", 1
+End Function
+</script>
+
+
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" /> 
+<img class = "home" src="back.png" alt="Back" width="35" height="35" onclick="openHome()">
+<div class="w3-text-white">
+  <div class="place">
+    <h1 class="w3-jumbo" style = "margin-left: 50px;">Infra Layer</h1>
+    <hr class="w3-border-grey" style="margin:auto;width:41%">
+    <p class="w3-large w3-center">Services Provided</p>
+	
+	<div class="button" id="button-2" style="float:left;" onclick="LoadTest()"  name="cmdBtn1">
+    <p class="name w3-text-white">Load Test</p>
+    <div id="slide">
+    <p class="name">Load Test</p>
+    </div>
+    </div>
+	
+	<div class="button" id="button-2" style="float:left;" onclick="CPUstress()"  name="cmdBtn2">
+    <p class="name w3-text-white">CPU Burn</p>
+    <div id="slide">
+    <p class="name">CPU Burn</p>
+    </div>
+    </div>
+
+	<div class="button" id="button-2" style="float:left;" onclick="MemoryStress()"  name="cmdBtn3">
+    <p class="name w3-text-white">Memory Stress</p>
+    <div id="slide">
+    <p class="name">Memory Stress</p>
+    </div>
+    </div>
+	
+	<div class="button" id="button-2" style="float:left;" onclick="DiskStress()"  name="cmdBtn4">
+    <p class="name w3-text-white">Disk Stress</p>
+    <div id="slide">
+    <p class="name">Disk Stress</p>
+    </div>
+    </div>
+	
+	<div class="button" id="button-2" style="float:left;" onclick="StartMonitor()"  name="cmdBtn5">
+    <p class="name w3-text-white">Monitor</p>
+    <div id="slide">
+    <p class="name">Monitor</p>
+    </div>
+    </div>
+</div></div>
+	
+<hta:application
+   id="oHTA"
+   applicationname="Resilience"
+   MAXIMIZEBUTTON="NO"
+   SCROLL="NO"
+   BORDER="DIALOG"
+   application="yes"> 
+</hta:application>
+</body>
+</html>
