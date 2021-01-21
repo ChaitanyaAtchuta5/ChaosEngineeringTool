@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login Page</title>
+<style>
+body {
+  background-color: #f2f2f2;
+}
+
+h3 {
+  text-align: center;
+}
+
+input[type=text],input[type=password], select {
+  width: 100%;
+  padding: 2.0px 2.0px;
+  margin: 0.8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+button {
+  width: 50%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 2.0px 2.0px;
+  text-align: center;
+  margin: 8px auto;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: block;
+  align:center;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+div {
+  border-radius: 0.5px;
+  background-color: #f2f2f2;
+  
+}
+</style>
+</head>
+<body>
+
+<script type="text/vbscript">
+
+Sub Window_onLoad
+
+    window.resizeTo 350,350
+
+End Sub
+
+Sub Execute(File)
+	Dim sUserName
+	Dim sPassword
+	Dim sServerName
+	
+	sServerName = serverName.value
+	sUserName = userName.value
+	sPassword = userPassword.value
+		
+	Dim ws
+	Set ws = CreateObject("wscript.shell")
+	ws.run(File&" ^"&sServerName&"^"&sUserName&"^"&sPassword)
+	self.close()
+End sub
+
+</script>
+
+<div>
+  <h3><u>Login</u></h3>
+    <label for="serverName"><b>Server Name</b></label>
+    <input type="text" id="serverName" name="serverName" placeholder="Your Server Name..">
+
+    <label for="userName"><b>User Name</b></label>
+    <input type="text" id="userName" name="userName" placeholder="Your User Name..">
+
+    <label for="userPassword"><b>Password</b></label>
+    <input type="password" id="userPassword" name="userPassword" placeholder="Your Password..">
+	
+	<label for="environment"><b>Environment</b></label></br>
+	<input type="radio" id="windows" name="env" value="Windows">
+	<label for="windows">Windows</label><br>
+	<input type="radio" id="linux" name="env" value="Linux">
+	<label for="linux">Linux</label><br></br>
+  
+    <button type="submit" value="Submit" onclick="Call Execute('MainPage.hta')">Login</button>
+	
+</div>
+
+<hta:application
+   id="oHTA"
+   applicationname="Resilience"
+   SINGLEINSTANCE="NO"
+   MAXIMIZEBUTTON="NO"
+   MINIMIZEBUTTON="NO"
+   SCROLL="NO"
+   BORDER="DIALOG"
+   application="yes"> 
+</hta:application>
+
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>CPU Stress</title>
+<style>
+body {
+  background-color: #f2f2f2;
+}
+
+h3 {
+  text-align: center;
+}
+
+input[type=text],input[type=password],input[type=file], select {
+  width: 100%;
+  padding: 2.0px 2.0px;
+  margin: 0.8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+
+button {
+  width: 50%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 2.0px 2.0px;
+  text-align: center;
+  margin: 8px auto;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: block;
+  align:center;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+div {
+  border-radius: 0.5px;
+  background-color: #f2f2f2;
+  
+}
+
+.Split{
+    border:none;
+    border-bottom: 1px solid black;
+    width:50px;
+}
+
+
+</style>
+</head>
+
+<body>
+
+<script type="text/vbscript">
+
+Sub Window_onLoad
+
+    window.resizeTo 370,370
+
+End Sub
+
+
+Function startLoadtest()
+
+	sJmeterbinpath = Jmeterbinpath.value
+	sScriptpath = Scriptpath.value
+	sResultspath = Resultspath.value+"\"+Outputfile.value+""+jtlfile.value
+	
+	Set objShell = CreateObject("Wscript.Shell")
+	'sCommand = "powershell.exe -WindowStyle Hidden -executionpolicy bypass -noexit -Command plink "&sUserName&"@"&sServerName&" -pw "&sPassword&" 'seq "&sCores&" | xargs -P0 -n1 timeout "&sDuration&" md5sum /dev/zero'"
+	sCommand = "powershell.exe -executionpolicy bypass -file JM_Powershell.ps1 "&sJmeterbinpath&" "&sScriptpath&" "&sResultspath&""
+	objShell.Run(sCommand)
+	self.close()
+End Function
+
+Function SelectFolder( myStartFolder )
+    Dim objFolder, objItem, objShell
+    
+    ' Custom error handling
+    On Error Resume Next
+    SelectFolder = vbNull
+
+    ' Create a dialog object
+    Set objShell  = CreateObject( "Shell.Application" )
+    Set objFolder = objShell.BrowseForFolder( 0, "Select Folder", 0, myStartFolder )
+
+    ' Return the path of the selected folder
+    If IsObject( objfolder ) Then SelectFolder = objFolder.Self.Path
+	Resultspath.value = SelectFolder
+	
+    ' Standard housekeeping
+    Set objFolder = Nothing
+    Set objshell  = Nothing
+    On Error Goto 0
+End Function
+
+</script>
+
+<div>
+  <h3><u>Configure Jmeter Paths</u></h3>
+    <label for="Jmeterbinpath"><b>Select the Jmeter batch file path</b></label>
+    <input type="file" name="Jmeterbinpath" value="fileupload" id="Jmeterbinpath" accept=".bat" ><br><br>
+
+    <label for="Scriptpath"><b>Select the Jmeter script file</b></label>
+    <input type="file" name="Scriptpath" accept=".jmx" value="fileupload" id="Scriptpath"><br><br>
+	
+	<label for="Resultspath"><b>Select the Jmeter results path</b></label>
+    <input type="text" style= "width:70%" name="Resultspath" id="Resultspath" >
+	<input type="submit" style= "width:26%" value="ChoosePath" onclick="SelectFolder('')"></button><br><br>
+	
+	<label for="Outputfile"><b>Output Filename</b></label>
+	<input type="text" name="Outputfile" id="Outputfile" style= "width:85%" class="Split" tabindex="1"><input type="text" name="jtlfile" id="jtlfile" style= "width:10%; pointer-events: none;" value=".jtl" class="Split" tabindex="2" readonly>
+	
+    <button type="submit" value="Submit" onclick="startLoadtest()">Submit</button><br><br>
+	
+</div>
+
+
+
+<hta:application
+   id="oHTA"
+   applicationname="Resilience"
+   SINGLEINSTANCE="NO"
+   MAXIMIZEBUTTON="NO"
+   MINIMIZEBUTTON="NO"
+   SCROLL="NO"
+   BORDER="DIALOG"
+   application="yes"> 
+</hta:application>
+
+</body>
+</html>
